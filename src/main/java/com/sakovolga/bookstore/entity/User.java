@@ -12,17 +12,18 @@ import java.util.Objects;
 public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private long userId;
+    private Long userId;
 
     @Column(name = "email")
     private String email;
 
     @Column(name = "first_name")
-    private String first_name;
+    private String firstName;
 
     @Column(name = "second_name")
-    private String second_name;
+    private String secondName;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -52,20 +53,20 @@ public class User {
         this.email = email;
     }
 
-    public String getFirst_name() {
-        return first_name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getSecond_name() {
-        return second_name;
+    public String getSecondName() {
+        return secondName;
     }
 
-    public void setSecond_name(String second_name) {
-        this.second_name = second_name;
+    public void setSecondName(String secondName) {
+        this.secondName = secondName;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -110,9 +111,11 @@ public class User {
         return "User{" +
                 "userId=" + userId +
                 ", email='" + email + '\'' +
-                ", first_name='" + first_name + '\'' +
-                ", second_name='" + second_name + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", secondName='" + secondName + '\'' +
                 ", createdAt=" + createdAt +
+                ", password='" + password + '\'' +
+                ", roles=" + roles +
                 '}';
     }
 }
