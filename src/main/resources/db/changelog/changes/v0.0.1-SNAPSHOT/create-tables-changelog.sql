@@ -20,6 +20,7 @@ create TABLE IF NOT EXISTS users (
     first_name	varchar(58) NOT NULL,
     second_name	varchar(58) NOT NULL,
     created_at TIMESTAMP NOT NULL,
+    password VARCHAR(128) NOT NULL,
     PRIMARY KEY (user_id)
 );
 
