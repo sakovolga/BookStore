@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
+@Table(name = "books")
 public class Book {
     @Id
     @Column(name = "book_id")
@@ -25,6 +26,9 @@ public class Book {
 
     @Column(name = "price")
     private BigDecimal price;
+
+    @Column(name = "book_rating")
+    private BigDecimal bookRating;
 
     @Column(name = "category")
     @Enumerated(EnumType.STRING)
