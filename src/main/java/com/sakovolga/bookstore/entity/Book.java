@@ -2,12 +2,16 @@ package com.sakovolga.bookstore.entity;
 
 import com.sakovolga.bookstore.entity.enums.Category;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.Objects;
 
 @Entity
 @Table(name = "books")
+@Getter
+@Setter
 public class Book {
     @Id
     @Column(name = "book_id")
@@ -34,70 +38,6 @@ public class Book {
     @Column(name = "category")
     @Enumerated(EnumType.STRING)
     private Category category;
-
-    public long getBookId() {
-        return bookId;
-    }
-
-    public void setBookId(long bookId) {
-        this.bookId = bookId;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public short getYearOfPublication() {
-        return yearOfPublication;
-    }
-
-    public void setYearOfPublication(short yearOfPublication) {
-        this.yearOfPublication = yearOfPublication;
-    }
-
-    public String getPublishingHouse() {
-        return publishingHouse;
-    }
-
-    public void setPublishingHouse(String publishingHouse) {
-        this.publishingHouse = publishingHouse;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public BigDecimal getBookRating() {
-        return bookRating;
-    }
-
-    public void setBookRating(BigDecimal bookRating) {
-        this.bookRating = bookRating;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
 
     @Override
     public boolean equals(Object o) {

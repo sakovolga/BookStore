@@ -30,7 +30,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable) // Отключение CSRF защиты
                 .authorizeHttpRequests(auth -> auth
                         // Разрешаем регистрацию и аутентификацию без проверки ролей
-                        .requestMatchers("/user/registration", "/auth/**").permitAll()
+                        .requestMatchers("/user/registration", "/auth/**", "/book/**").permitAll()
 
                         // Администраторам разрешен доступ ко всем путям
                         .requestMatchers("/user/getById/*", "/user/email/*").hasRole("ADMIN")
