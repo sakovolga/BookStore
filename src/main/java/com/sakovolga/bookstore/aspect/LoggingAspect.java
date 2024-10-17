@@ -47,7 +47,7 @@ public class LoggingAspect {
         Object[] args = jp.getArgs();
         String argsString = args.length > 0 ? Arrays.toString(args) : "METHOD HAS NO ARGUMENTS";
 
-        log.info("RUN SERVICE: SERVICE_METHOD: {}.{}\nMETHOD ARGUMENTS: [{}]",
+        log.info("RUN SERVICE: SERVICE_METHOD: {}.{}. METHOD ARGUMENTS: [{}]",
                 className, methodName, argsString);
     }
 
@@ -87,31 +87,31 @@ public class LoggingAspect {
                 className, methodName, Arrays.toString(jp.getArgs()), ex.getMessage());
     }
 
-    @Pointcut("execution(public * com.sakovolga.bookstore.kafka.KafkaProducer.send(..))")
-    public void kafkaSend(){}
-
-    @Around("kafkaSend()")
-    public Object logKafkaSend(ProceedingJoinPoint joinPoint) throws Throwable {
-        Object[] args = joinPoint.getArgs();
-        String topic = args[0].toString();
-        Object message = args[1];
-
-        log.info("Sending message: {} to kafka topic {}",
-                message, topic);
-
-        return joinPoint.proceed();
-    }
-
-    @Pointcut("execution(public * com.sakovolga.bookstore.kafka.KafkaListener(..))")
-    public void kafkaListener(){}
-
-    @Before("kafkaListener()")
-    public void logKafkaListener(JoinPoint jp){
-        Object[] args = jp.getArgs();
-        Object message = args[0];
-
-        log.info("Received message from kafka: {}", message);
-    }
+//    @Pointcut("execution(public * com.sakovolga.bookstore.kafka.KafkaProducer.send(..))")
+//    public void kafkaSend(){}
+//
+//    @Around("kafkaSend()")
+//    public Object logKafkaSend(ProceedingJoinPoint joinPoint) throws Throwable {
+//        Object[] args = joinPoint.getArgs();
+//        String topic = args[0].toString();
+//        Object message = args[1];
+//
+//        log.info("Sending message: {} to kafka topic {}",
+//                message, topic);
+//
+//        return joinPoint.proceed();
+//    }
+//
+//    @Pointcut("execution(public * com.sakovolga.bookstore.kafka.KafkaListener(..))")
+//    public void kafkaListener(){}
+//
+//    @Before("kafkaListener()")
+//    public void logKafkaListener(JoinPoint jp){
+//        Object[] args = jp.getArgs();
+//        Object message = args[0];
+//
+//        log.info("Received message from kafka: {}", message);
+//    }
 
 
 

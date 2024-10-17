@@ -36,7 +36,8 @@ public class SecurityConfig {
                         .requestMatchers("/user/getById/*", "/user/email/*").hasRole("ADMIN")
 
                         // Все остальные запросы должны быть аутентифицированы
-//                        .requestMatchers("/**").authenticated()
+                        .requestMatchers("/order/*").authenticated()
+                        .anyRequest().permitAll()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Stateless session
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class); // Добавляем фильтр JWT
