@@ -1,7 +1,9 @@
 package com.sakovolga.bookstore.security;
 
 
+import com.sakovolga.bookstore.entity.User;
 import com.sakovolga.bookstore.entity.enums.Role;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,11 +14,13 @@ import java.util.stream.Collectors;
 
 public class CustomUserDetails implements UserDetails {
 
-    private final String email;
+//    private final String email;
+    @Getter
+    private final User user;
     private final List<Role> roles;
 
-    public CustomUserDetails(String email, List<Role> roles) {
-        this.email = email;
+    public CustomUserDetails(User user, List<Role> roles) {
+        this.user = user;
         this.roles = roles;
     }
 
@@ -34,7 +38,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return user.getEmail();
     }
 
 

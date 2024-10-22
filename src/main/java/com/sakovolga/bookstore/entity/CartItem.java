@@ -14,6 +14,7 @@ import java.util.Objects;
 public class CartItem {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cart_item_id")
     private long cartItemId;
 

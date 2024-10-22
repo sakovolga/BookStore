@@ -33,7 +33,7 @@ public class Book {
     private BigDecimal price;
 
     @Column(name = "reminder")
-    private int reminder;
+    private Integer reminder;
 
     @Column(name = "book_rating")
     private BigDecimal bookRating;

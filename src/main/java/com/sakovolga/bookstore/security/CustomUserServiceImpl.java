@@ -23,6 +23,6 @@ public class CustomUserServiceImpl implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
 
         // Создаем и возвращаем CustomUserDetails с email и ролями пользователя
-        return new CustomUserDetails(user.getEmail(), user.getRoles().stream().toList());
+        return new CustomUserDetails(user, user.getRoles().stream().toList());
     }
 }
