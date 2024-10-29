@@ -8,14 +8,6 @@ import org.mapstruct.*;
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface CartItemMapper {
 
-    @Mappings({
-//        @Mapping(target = "bookId", source = "book.bookId"),
-//        @Mapping(target = "title", source = "book.title"),
-//        @Mapping(target = "author", source = "book.author"),
-//        @Mapping(target = "yearOfPublication", source = "book.yearOfPublication"),
-//        @Mapping(target = "publishingHouse", source = "book.publishingHouse"),
-//        @Mapping(target = "price", source = "book.price"),
-    })
     CartItemDto toDto(CartItem cartItem);
 
     @AfterMapping

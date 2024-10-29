@@ -1,5 +1,6 @@
 package com.sakovolga.bookstore.exceptionHandler;
 
+import com.sakovolga.bookstore.exception.NotAllCartItemsFoundException;
 import com.sakovolga.bookstore.exception.NothingFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.BadRequestException;
@@ -36,7 +37,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler({IllegalArgumentException.class,
-            BadRequestException.class})
+            BadRequestException.class,
+            NotAllCartItemsFoundException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<String> handleBadRequest(Exception ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bad request: " + ex.getMessage());
