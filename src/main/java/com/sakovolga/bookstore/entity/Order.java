@@ -16,6 +16,7 @@ import java.util.Objects;
 public class Order {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
     private long orderId;
 
@@ -56,6 +57,8 @@ public class Order {
                 ", status=" + status +
                 ", createdAt=" + createdAt +
                 ", completedAt=" + completedAt +
+                ", user=" + user +
+                ", orderDetailList=" + orderDetailList +
                 '}';
     }
 }

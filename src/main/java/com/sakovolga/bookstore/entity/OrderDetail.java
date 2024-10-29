@@ -13,6 +13,7 @@ import java.util.Objects;
 public class OrderDetail {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_detail_id")
     private long orderDetailId;
 
@@ -41,9 +42,11 @@ public class OrderDetail {
     }
 
     @Override
-    public String toString() {
+    public String  toString() {
         return "OrderDetail{" +
                 "orderDetailId=" + orderDetailId +
+                ", quantity=" + quantity +
+                ", book=" + book +
                 '}';
     }
 }

@@ -19,4 +19,6 @@ public interface CartItemRepository extends JpaRepository<CartItem, Long> {
 
     @Query("SELECT c FROM CartItem c WHERE c.id IN :cartItemIds")
     List<CartItem> findAllByIds(@Param("cartItemIds") List<Long> cartItemIds);
+
+    void deleteAllByCartItemIdIn(List<Long> cartItemIds);
 }

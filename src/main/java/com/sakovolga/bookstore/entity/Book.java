@@ -14,6 +14,7 @@ import java.util.Objects;
 @Setter
 public class Book {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "book_id")
     private long bookId;
 
