@@ -19,8 +19,6 @@ public class OrderController {
 
     @PostMapping
     public OrderDto create(@RequestBody List<Long> cartItemIds){
-        OrderDto orderDto = orderService.createOrder(cartItemIds);
-        System.out.println("11 11 11 11 11 11 1 11 11 ");
-        return orderDto;
+        return orderService.createOrder(cartItemIds);
     }
 }

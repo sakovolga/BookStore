@@ -40,7 +40,6 @@ public class JwtFilter extends OncePerRequestFilter {
     private void setCustomUserDetailsToSecurityContextHolder(String token) {
         String email = jwtService.getEmailFromToken(token);
         UserDetails userDetails = customUserService.loadUserByUsername(email);
-        System.out.println(";;;;;;;;;;;;;;;;;;;;UserDetails loaded: " + userDetails);
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails,
                 null, userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
