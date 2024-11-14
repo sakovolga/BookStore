@@ -78,6 +78,7 @@ public class LoggingAspect {
 
     }
 
+
     @AfterThrowing(throwing = "ex", pointcut = "controllerLog()")
     public void throwsException(JoinPoint jp, Exception ex){
         String methodName = jp.getSignature().getName();
