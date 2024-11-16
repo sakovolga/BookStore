@@ -15,6 +15,7 @@ class AuthControllerTest {
 
     @Test
     void singIn() {
+
     }
 
     @Test
