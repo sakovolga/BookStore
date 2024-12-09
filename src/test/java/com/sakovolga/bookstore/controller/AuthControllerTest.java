@@ -1,9 +1,27 @@
 package com.sakovolga.bookstore.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sakovolga.bookstore.dto.JwtAuthenticationDto;
+import com.sakovolga.bookstore.dto.UserCredentialsDto;
+import com.sakovolga.bookstore.entity.User;
+import com.sakovolga.bookstore.repository.UserRepository;
+import com.sakovolga.bookstore.security.jwt.JWTService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MockMvcBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import java.util.UUID;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 @Sql("/drop-tables.sql")
@@ -11,9 +29,40 @@ import org.springframework.test.context.jdbc.Sql;
 @Sql("/insert_test_data.sql")
 class AuthControllerTest {
 
-    @Test
-    void singIn() {
+    @Autowired
+    private MockMvc mockMvc;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @Autowired
+    private JWTService jwtService;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Test
+    void singInTest() throws Exception {
+        String email = "petr@mail.com";
+        String password = "12345";
+        UserCredentialsDto userCredentialsDto = new UserCredentialsDto();
+        userCredentialsDto.setEmail(email);
+        userCredentialsDto.setPassword(password);
+
+        String userCredentialsDtoStr = objectMapper.writeValueAsString(userCredentialsDto);
+
+        String result = mockMvc.perform(MockMvcRequestBuilders.post("/auth/sign-in")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(userCredentialsDtoStr))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        JwtAuthenticationDto jwtAuthenticationDto = objectMapper.readValue(result, JwtAuthenticationDto.class);
+        String actualEmail = jwtService.getEmailFromToken(jwtAuthenticationDto.getToken());
+
+        Assertions.assertEquals(email, actualEmail);
     }
 
     @Test
