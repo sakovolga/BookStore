@@ -91,7 +91,7 @@ class AuthControllerTest {
         Assertions.assertEquals(email, actualEmail);
     }
 
-    private RefreshTokenDto getRefreshToken(String email){
+    private RefreshTokenDto getRefreshTokenTest(String email){
         JwtAuthenticationDto jwtAuthenticationDto = jwtService.generateAuthToken(email);
         RefreshTokenDto refreshTokenDto = new RefreshTokenDto();
         refreshTokenDto.setRefreshToken(jwtAuthenticationDto.getRefreshToken());
