@@ -3,6 +3,7 @@ package com.sakovolga.bookstore.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sakovolga.bookstore.dto.JwtAuthenticationDto;
+import com.sakovolga.bookstore.dto.RefreshTokenDto;
 import com.sakovolga.bookstore.dto.UserCredentialsDto;
 import com.sakovolga.bookstore.entity.User;
 import com.sakovolga.bookstore.repository.UserRepository;
@@ -10,6 +11,7 @@ import com.sakovolga.bookstore.security.jwt.JWTService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -41,6 +43,10 @@ class AuthControllerTest {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    @Value("${JWTSecret}")
+    private String jwtSecret;
+
     @Test
     void singInTest() throws Exception {
         String email = "petr@mail.com";
@@ -66,6 +72,29 @@ class AuthControllerTest {
     }
 
     @Test
-    void refresh() {
+    void refresh() throws Exception {
+        String email = "petr@mail.com";
+        RefreshTokenDto refreshTokenDto = getRefreshToken(email);
+        String refreshJSON = objectMapper.writeValueAsString(refreshTokenDto);
+
+        String result = mockMvc.perform(MockMvcRequestBuilders.post("/auth/refresh")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(refreshJSON))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        JwtAuthenticationDto jwtAuthenticationDto = objectMapper.readValue(result, JwtAuthenticationDto.class);
+        String actualEmail = jwtService.getEmailFromToken(jwtAuthenticationDto.getToken());
+
+        Assertions.assertEquals(email, actualEmail);
+    }
+
+    private RefreshTokenDto getRefreshToken(String email){
+        JwtAuthenticationDto jwtAuthenticationDto = jwtService.generateAuthToken(email);
+        RefreshTokenDto refreshTokenDto = new RefreshTokenDto();
+        refreshTokenDto.setRefreshToken(jwtAuthenticationDto.getRefreshToken());
+        return refreshTokenDto;
     }
 }
