@@ -12,6 +12,9 @@ import java.util.List;
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserMapper {
 
+    @Mappings(
+            @Mapping(target = "id", source = "userId")
+    )
     UserDto toDto(User user);
 
     @AfterMapping

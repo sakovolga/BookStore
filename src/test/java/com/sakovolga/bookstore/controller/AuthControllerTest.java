@@ -74,7 +74,7 @@ class AuthControllerTest {
     @Test
     void refresh() throws Exception {
         String email = "petr@mail.com";
-        RefreshTokenDto refreshTokenDto = getRefreshToken(email);
+        RefreshTokenDto refreshTokenDto = getRefreshTokenTest(email);
         String refreshJSON = objectMapper.writeValueAsString(refreshTokenDto);
 
         String result = mockMvc.perform(MockMvcRequestBuilders.post("/auth/refresh")

@@ -41,19 +41,17 @@ public class User {
     @Column(name = "role_name")
     private List<Role> roles;
 
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(userId, user.userId) && Objects.equals(email, user.email) && Objects.equals(createdAt, user.createdAt);
+        return Objects.equals(userId, user.userId) && Objects.equals(email, user.email) && Objects.equals(firstName, user.firstName) && Objects.equals(secondName, user.secondName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, email, createdAt);
+        return Objects.hash(userId, email, firstName, secondName);
     }
 
     @Override
@@ -64,7 +62,6 @@ public class User {
                 ", firstName='" + firstName + '\'' +
                 ", secondName='" + secondName + '\'' +
                 ", createdAt=" + createdAt +
-                ", password='" + password + '\'' +
                 ", roles=" + roles +
                 '}';
     }
