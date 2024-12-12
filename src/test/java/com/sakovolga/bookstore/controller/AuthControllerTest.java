@@ -1,11 +1,9 @@
 package com.sakovolga.bookstore.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sakovolga.bookstore.dto.JwtAuthenticationDto;
 import com.sakovolga.bookstore.dto.RefreshTokenDto;
 import com.sakovolga.bookstore.dto.UserCredentialsDto;
-import com.sakovolga.bookstore.entity.User;
 import com.sakovolga.bookstore.repository.UserRepository;
 import com.sakovolga.bookstore.security.jwt.JWTService;
 import org.junit.jupiter.api.Assertions;
@@ -17,10 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MockMvcBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
-import java.util.UUID;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
