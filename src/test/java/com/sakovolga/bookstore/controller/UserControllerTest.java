@@ -33,7 +33,20 @@ class UserControllerTest {
     }
 
     @Test
-    void getUserByIdTest() {
+    @WithUserDetails(value = "jurij@mail.com")
+    void getUserByIdTest() throws Exception {
+        String id = "1";
+
+        String result = mockMvc.perform(MockMvcRequestBuilders.get("/user/" + id))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        UserDto actualUserDto = objectMapper.readValue(result, UserDto.class);
+        UserDto expectedUserDto = getUserDto();
+
+        Assertions.assertEquals(expectedUserDto, actualUserDto);
     }
 
     @Test

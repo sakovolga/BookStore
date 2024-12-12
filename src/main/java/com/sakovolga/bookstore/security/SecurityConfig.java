@@ -33,7 +33,7 @@ public class SecurityConfig {
                         .requestMatchers("/user/registration", "/auth/**", "/book/**").permitAll()
                         .requestMatchers("/cart/**").hasRole("CUSTOMER")
                         // Администраторам разрешен доступ ко всем путям
-                        .requestMatchers("/user/getById/*", "/user/email/*").hasRole("ADMIN")
+                        .requestMatchers("/user/*", "/user/email/*").hasRole("ADMIN")
 
                         // Все остальные запросы должны быть аутентифицированы
                         .requestMatchers("/order/*").authenticated()

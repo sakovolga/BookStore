@@ -20,7 +20,7 @@ public class UserController {
         return userService.addUser(userDto);
     }
 
-    @GetMapping("/getById/{id}")
+    @GetMapping("/{id}")
     public UserDto getUserById(@PathVariable Long id) throws ChangeSetPersister.NotFoundException {
         return userService.getUserById(id);
     }
