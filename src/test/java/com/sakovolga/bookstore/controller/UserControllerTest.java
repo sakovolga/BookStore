@@ -1,18 +1,24 @@
 package com.sakovolga.bookstore.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sakovolga.bookstore.dto.UserDto;
+import com.sakovolga.bookstore.entity.User;
+import com.sakovolga.bookstore.service.UserService;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -29,7 +35,32 @@ class UserControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
-    void createUserTest() {
+    @WithUserDetails(value = "jurij@mail.com")
+    void createUserTest() throws Exception {
+        UserDto creatingUserDto = getCreatingUserDto();
+        String creatingUserDtoJson = objectMapper.writeValueAsString(creatingUserDto);
+
+        String result = mockMvc.perform(MockMvcRequestBuilders.post("/user/registration")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(creatingUserDtoJson))
+                .andExpect(status().isOk())
+                .andExpect(content().string("User added"))
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        String result2 = mockMvc.perform(MockMvcRequestBuilders.get("/user/email/test@test.com"))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        UserDto actualUserDto = objectMapper.readValue(result2, UserDto.class);
+        creatingUserDto.setId(actualUserDto.getId());
+        creatingUserDto.setPassword("*****");
+
+        Assertions.assertEquals(creatingUserDto, actualUserDto);
+
     }
 
     @Test
@@ -73,6 +104,15 @@ class UserControllerTest {
         userDto.setId("1");
         userDto.setEmail("petr@mail.com");
         userDto.setPassword("*****");
+        return userDto;
+    }
+
+    private UserDto getCreatingUserDto(){
+        UserDto userDto = new UserDto();
+        userDto.setFirstName("TestName");
+        userDto.setSecondName("TestSecondName");
+        userDto.setPassword("12345!Jhgddtt");
+        userDto.setEmail("test@test.com");
         return userDto;
     }
 }

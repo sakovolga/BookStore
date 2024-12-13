@@ -22,6 +22,9 @@ public interface UserMapper {
         userDto.setPassword("*****");
     }
 
+    @Mappings(
+        @Mapping(target = "userId", source = "id")
+    )
     User toEntity(UserDto userDto);
 
     @AfterMapping
