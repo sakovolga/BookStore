@@ -18,7 +18,6 @@ public class User {
     @Column(name = "user_id")
     private Long userId;
 
-    @Getter
     @Column(name = "email")
     private String email;
 
@@ -66,6 +65,26 @@ public class User {
 
     public List<Role> getRoles() {
         return roles;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setSecondName(String secondName) {
+        this.secondName = secondName;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override

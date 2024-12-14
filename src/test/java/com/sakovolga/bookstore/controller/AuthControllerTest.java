@@ -38,10 +38,6 @@ class AuthControllerTest {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    @Value("${JWTSecret}")
-    private String jwtSecret;
-
     @Test
     void singInTest() throws Exception {
         String email = "petr@mail.com";
