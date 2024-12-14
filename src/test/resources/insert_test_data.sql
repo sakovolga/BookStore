@@ -1,7 +1,10 @@
 -- Вставка данных в таблицу books (без указания book_id, так как оно автоинкрементируется)
 INSERT INTO books (author, title, year_of_publication, publishing_house, price, reminder, category)
 VALUES
-    ('Joahn Roaling', 'Harry Potter', 1999, 'British Print', 45.55, 25, 'ADVENTURE');
+    ('Joahn Roaling', 'Harry Potter', 1999, 'British Print', 45.55, 25, 'ADVENTURE'),
+    ('Agatha Christie', 'Murder on the Orient Express', 1934, 'Collins Crime Club', 30.00, 15, 'MYSTERY'),
+    ('Jules Verne', 'Journey to the Center of the Earth', 1864, 'Pierre-Jules Hetzel', 20.99, 10, 'ADVENTURE'),
+    ('Jane Austen', 'Pride and Prejudice', 1813, 'T. Egerton, Whitehall', 25.50, 20, 'ROMANCE');
 
 -- Вставка данных в таблицу users (без указания user_id)
 -- password 12345
