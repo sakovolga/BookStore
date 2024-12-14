@@ -39,12 +39,19 @@ class BookControllerTest {
                 .getContentAsString();
 
         List<Book> books = objectMapper.readValue(result, new TypeReference<>() {});
-        Assertions.assertEquals(1, books.size());
+        Assertions.assertEquals(4, books.size());
     }
 
     @Test
-    void getByCategory() {
+    void getByCategoryTest() throws Exception {
+        String result = mockMvc.perform(MockMvcRequestBuilders.get("/book/category/ADVENTURE"))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
 
+        Set<Book> books = objectMapper.readValue(result, new TypeReference<>() {});
+        Assertions.assertEquals(2, books.size());
     }
 
     @Test
