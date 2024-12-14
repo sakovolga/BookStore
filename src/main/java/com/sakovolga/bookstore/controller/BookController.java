@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @RestController
@@ -25,7 +26,7 @@ public class BookController {
     }
 
     @GetMapping("/category/{category}")
-    public ResponseEntity<List<Book>> getByCategory(@PathVariable (name = "category") String category){
+    public ResponseEntity<Set<Book>> getByCategory(@PathVariable (name = "category") String category){
         return ResponseEntity.ok(bookService.getByCategory(category));
     }
 

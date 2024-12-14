@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @Service
@@ -26,10 +27,10 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> getByCategory(String category) {
+    public Set<Book> getByCategory(String category) {
         try {
             Category categoryEnum = Category.valueOf(category.toUpperCase());
-            List<Book> books = bookRepository.findAllByCategory(categoryEnum);
+            Set<Book> books = bookRepository.findAllByCategory(categoryEnum);
             if (books.isEmpty()) {
                 throw new NothingFoundException("No books found");
             }
