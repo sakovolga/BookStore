@@ -32,27 +32,6 @@ public class CartServiceImpl implements CartService {
     private EntityManager entityManager;
     private final CartItemMapper cartItemMapper;
 
-//    @Override
-//    @Transactional
-//    public void addToCart(CartItemDto cartItemDto) throws BadRequestException {
-//        long bookId = cartItemDto.getBookId();
-//        Book book = bookRepository.findById(bookId)
-//                .orElseThrow(() -> new NothingFoundException("There is no book with id " + bookId));
-//        Integer reminder = book.getReminder();
-//        int actualReminder = (reminder != null) ? reminder : 0;
-//        if (cartItemDto.getQuantity() > actualReminder) {
-//            throw new BadRequestException("The number of books ordered exceeds the number of books in stock");
-//        }
-//        User user = entityManager.merge(userProvider.getCurrentUser());
-//        book.setReminder(actualReminder - cartItemDto.getQuantity());
-//        CartItem cartItem = new CartItem();
-//        cartItem.setBook(book);
-//        cartItem.setQuantity(cartItemDto.getQuantity());
-//        cartItem.setUser(user);
-//        cartItem.setCreatedAt(LocalDateTime.now());
-//        cartItemRepository.saveAndFlush(cartItem);
-//    }
-
     @Override
     @Transactional
     public void addToCart(CartItemDto cartItemDto) throws BadRequestException {
