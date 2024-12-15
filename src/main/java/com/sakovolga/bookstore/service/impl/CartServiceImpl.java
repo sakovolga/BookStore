@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,26 +32,76 @@ public class CartServiceImpl implements CartService {
     private EntityManager entityManager;
     private final CartItemMapper cartItemMapper;
 
+//    @Override
+//    @Transactional
+//    public void addToCart(CartItemDto cartItemDto) throws BadRequestException {
+//        long bookId = cartItemDto.getBookId();
+//        Book book = bookRepository.findById(bookId)
+//                .orElseThrow(() -> new NothingFoundException("There is no book with id " + bookId));
+//        Integer reminder = book.getReminder();
+//        int actualReminder = (reminder != null) ? reminder : 0;
+//        if (cartItemDto.getQuantity() > actualReminder) {
+//            throw new BadRequestException("The number of books ordered exceeds the number of books in stock");
+//        }
+//        User user = entityManager.merge(userProvider.getCurrentUser());
+//        book.setReminder(actualReminder - cartItemDto.getQuantity());
+//        CartItem cartItem = new CartItem();
+//        cartItem.setBook(book);
+//        cartItem.setQuantity(cartItemDto.getQuantity());
+//        cartItem.setUser(user);
+//        cartItem.setCreatedAt(LocalDateTime.now());
+//        cartItemRepository.saveAndFlush(cartItem);
+//    }
+
     @Override
     @Transactional
     public void addToCart(CartItemDto cartItemDto) throws BadRequestException {
         long bookId = cartItemDto.getBookId();
+        short quantityToAdd = cartItemDto.getQuantity();
+
+        // Проверка существования книги
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new NothingFoundException("There is no book with id " + bookId));
+
+        // Проверка остатка на складе
         Integer reminder = book.getReminder();
         int actualReminder = (reminder != null) ? reminder : 0;
-        if (cartItemDto.getQuantity() > actualReminder) {
+        if (quantityToAdd > actualReminder) {
             throw new BadRequestException("The number of books ordered exceeds the number of books in stock");
         }
+
+        // Получение текущего пользователя
         User user = entityManager.merge(userProvider.getCurrentUser());
-        book.setReminder(actualReminder - cartItemDto.getQuantity());
-        CartItem cartItem = new CartItem();
-        cartItem.setBook(book);
-        cartItem.setQuantity(cartItemDto.getQuantity());
-        cartItem.setUser(user);
-        cartItem.setCreatedAt(LocalDateTime.now());
-        cartItemRepository.saveAndFlush(cartItem);
+
+        // Проверка, есть ли уже этот товар в корзине
+        Optional<CartItem> existingCartItem = cartItemRepository.findByUserAndBook(user, book);
+        if (existingCartItem.isPresent()) {
+            // Если товар уже есть, обновляем его количество
+            CartItem cartItem = existingCartItem.get();
+            short newQuantity = (short) (cartItem.getQuantity() + quantityToAdd);
+
+            // Проверяем, хватает ли остатка для добавления
+            if (newQuantity > actualReminder) {
+                throw new BadRequestException("The total number of books exceeds the number of books in stock");
+            }
+
+            // Обновляем остаток на складе
+            book.setReminder(actualReminder - quantityToAdd);
+
+            cartItem.setQuantity(newQuantity);
+            cartItemRepository.saveAndFlush(cartItem);
+        } else {
+            // Если товара в корзине нет, создаем новый
+            book.setReminder(actualReminder - quantityToAdd);
+            CartItem cartItem = new CartItem();
+            cartItem.setBook(book);
+            cartItem.setQuantity(quantityToAdd);
+            cartItem.setUser(user);
+            cartItem.setCreatedAt(LocalDateTime.now());
+            cartItemRepository.saveAndFlush(cartItem);
+        }
     }
+
 
     @Override
     @Transactional
