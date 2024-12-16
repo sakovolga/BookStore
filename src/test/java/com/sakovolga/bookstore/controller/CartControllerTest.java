@@ -67,7 +67,10 @@ class CartControllerTest {
     }
 
     @Test
-    void getCart() {
+    @WithUserDetails(value = "petr@mail.com")
+    void getCartTest() throws Exception {
+        List<CartItemDto> cart = getActualCart();
+        Assertions.assertEquals(cart.size(), 1);
     }
 
     static Stream<CartItemDto> provideCartItemDtos() {

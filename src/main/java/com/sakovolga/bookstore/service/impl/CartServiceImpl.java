@@ -38,39 +38,31 @@ public class CartServiceImpl implements CartService {
         long bookId = cartItemDto.getBookId();
         short quantityToAdd = cartItemDto.getQuantity();
 
-        // Проверка существования книги
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new NothingFoundException("There is no book with id " + bookId));
 
-        // Проверка остатка на складе
         Integer reminder = book.getReminder();
         int actualReminder = (reminder != null) ? reminder : 0;
         if (quantityToAdd > actualReminder) {
             throw new BadRequestException("The number of books ordered exceeds the number of books in stock");
         }
 
-        // Получение текущего пользователя
         User user = entityManager.merge(userProvider.getCurrentUser());
 
-        // Проверка, есть ли уже этот товар в корзине
         Optional<CartItem> existingCartItem = cartItemRepository.findByUserAndBook(user, book);
         if (existingCartItem.isPresent()) {
-            // Если товар уже есть, обновляем его количество
             CartItem cartItem = existingCartItem.get();
             short newQuantity = (short) (cartItem.getQuantity() + quantityToAdd);
 
-            // Проверяем, хватает ли остатка для добавления
             if (newQuantity > actualReminder) {
                 throw new BadRequestException("The total number of books exceeds the number of books in stock");
             }
 
-            // Обновляем остаток на складе
             book.setReminder(actualReminder - quantityToAdd);
 
             cartItem.setQuantity(newQuantity);
             cartItemRepository.saveAndFlush(cartItem);
         } else {
-            // Если товара в корзине нет, создаем новый
             book.setReminder(actualReminder - quantityToAdd);
             CartItem cartItem = new CartItem();
             cartItem.setBook(book);
@@ -80,7 +72,6 @@ public class CartServiceImpl implements CartService {
             cartItemRepository.saveAndFlush(cartItem);
         }
     }
-
 
     @Override
     @Transactional
