@@ -38,17 +38,21 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     @Override
     public OrderDto createOrder(List<Long> cartItemIds) {
+        User user = entityManager.merge(userProvider.getCurrentUser());
         List<CartItem> cartItems = cartItemRepository.findAllByIds(cartItemIds);
-        if (cartItems.size() != cartItemIds.size()) {
+        List<CartItem> cartItemsChecked = cartItems.stream()
+                .filter(cartItem -> cartItem.getUser().equals(user))
+                .toList();
+        if (cartItemIds.size() != cartItemsChecked.size()) {
             throw new NotAllCartItemsFoundException("Not all cart items found");
         }
-        User user = entityManager.merge(userProvider.getCurrentUser());
+
         Order order = new Order();
         order.setUser(user);
         order.setStatus(OrderStatus.CREATED);
         order.setCreatedAt(LocalDateTime.now());
         List<OrderDetail> orderDetails = new ArrayList<>();
-        for (CartItem cartItem : cartItems){
+        for (CartItem cartItem : cartItems) {
             OrderDetail orderDetail = orderDetailMapper.toOrderDetail(cartItem);
             orderDetail.setOrder(order);
             orderDetails.add(orderDetail);
