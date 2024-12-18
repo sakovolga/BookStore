@@ -1,12 +1,11 @@
 package com.sakovolga.bookstore.controller;
 
+import com.sakovolga.bookstore.dto.MyOrderDto;
 import com.sakovolga.bookstore.dto.OrderDto;
 import com.sakovolga.bookstore.service.OrderService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,7 +17,13 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public OrderDto create(@RequestBody List<Long> cartItemIds){
         return orderService.createOrder(cartItemIds);
+    }
+
+    @GetMapping("/myorders")
+    public List<MyOrderDto> getMyOrders(){
+        return orderService.getMyOrders();
     }
 }

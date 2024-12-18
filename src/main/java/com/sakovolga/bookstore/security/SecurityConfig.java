@@ -31,7 +31,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // Разрешаем регистрацию и аутентификацию без проверки ролей
                         .requestMatchers("/user/registration", "/auth/**", "/book/**").permitAll()
-                        .requestMatchers("/cart/**").hasRole("CUSTOMER")
+                        .requestMatchers("/cart/**", "/order/myorders").hasRole("CUSTOMER")
                         // Администраторам разрешен доступ ко всем путям
                         .requestMatchers("/user/*", "/user/email/*").hasRole("ADMIN")
 

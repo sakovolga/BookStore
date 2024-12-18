@@ -1,5 +1,6 @@
 package com.sakovolga.bookstore.mapper;
 
+import com.sakovolga.bookstore.dto.MyOrderDto;
 import com.sakovolga.bookstore.dto.OrderDetailDto;
 import com.sakovolga.bookstore.dto.OrderDto;
 import com.sakovolga.bookstore.entity.Book;
@@ -8,7 +9,9 @@ import com.sakovolga.bookstore.entity.OrderDetail;
 import org.mapstruct.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
@@ -37,5 +40,23 @@ public interface OrderMapper {
         orderDetailDto.setQuantity(orderDetail.getQuantity());
         orderDetailDto.setOrderDetailPrice(book.getPrice().multiply(BigDecimal.valueOf(orderDetail.getQuantity())));
         return orderDetailDto;
+    }
+
+    MyOrderDto toMyOrderDto(Order order);
+
+    @AfterMapping
+    default void generateMyOrderDto(@MappingTarget MyOrderDto myOrdersDto, Order order) {
+        LocalDateTime createdAt = order.getCreatedAt();
+        Optional<LocalDateTime> completedAt = Optional.ofNullable(order.getCompletedAt());
+        myOrdersDto.setDate(completedAt.orElse(createdAt));
+        myOrdersDto.setTotalPrice(getTotalPrice(order));
+    }
+
+    default BigDecimal getTotalPrice(Order order) {
+        return order.getOrderDetailList()
+                .stream()
+                .map(orderDetail ->
+                        orderDetail.getBook().getPrice().multiply(BigDecimal.valueOf(orderDetail.getQuantity())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }

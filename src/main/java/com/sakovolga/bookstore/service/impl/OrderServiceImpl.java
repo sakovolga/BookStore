@@ -1,5 +1,6 @@
 package com.sakovolga.bookstore.service.impl;
 
+import com.sakovolga.bookstore.dto.MyOrderDto;
 import com.sakovolga.bookstore.dto.OrderDto;
 import com.sakovolga.bookstore.entity.CartItem;
 import com.sakovolga.bookstore.entity.Order;
@@ -61,5 +62,15 @@ public class OrderServiceImpl implements OrderService {
         Order savedOrder = orderRepository.saveAndFlush(order);
         cartItemRepository.deleteAllByCartItemIdIn(cartItemIds);
         return orderMapper.toDto(savedOrder);
+    }
+
+    @Transactional
+    @Override
+    public List<MyOrderDto> getMyOrders() {
+        User user = entityManager.merge(userProvider.getCurrentUser());
+        List<Order> orderList = orderRepository.findAllByUser(user);
+        return orderList.stream()
+                .map(orderMapper::toMyOrderDto)
+                .toList();
     }
 }
