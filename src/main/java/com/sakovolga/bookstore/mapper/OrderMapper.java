@@ -42,6 +42,9 @@ public interface OrderMapper {
         return orderDetailDto;
     }
 
+    @Mappings(
+            @Mapping(target = "orderId", source = "orderId")
+    )
     MyOrderDto toMyOrderDto(Order order);
 
     @AfterMapping

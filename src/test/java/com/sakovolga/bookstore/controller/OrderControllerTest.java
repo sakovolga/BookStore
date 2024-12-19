@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sakovolga.bookstore.dto.CartItemDto;
 import com.sakovolga.bookstore.dto.MyOrderDto;
+import com.sakovolga.bookstore.entity.enums.OrderStatus;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,15 @@ class OrderControllerTest {
 
         Assertions.assertEquals(ordersBefore.size() + 1, ordersAfter.size());
         Assertions.assertEquals(cartBefore.size() - cartItemIds.size(), cartAfter.size());
+    }
+
+    @Test
+    @WithUserDetails(value = "petr@mail.com")
+    void getMyOrdersTest() throws Exception {
+        List<MyOrderDto> orders = getMyOrders();
+
+        Assertions.assertEquals(1, orders.size());
+        Assertions.assertEquals(OrderStatus.COMPLETED, orders.getFirst().getStatus());
     }
 
     private List<MyOrderDto> getMyOrders() throws Exception {
