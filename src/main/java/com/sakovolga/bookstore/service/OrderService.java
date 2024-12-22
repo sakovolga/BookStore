@@ -10,5 +10,7 @@ public interface OrderService {
 
     List<Long> getMyOrders();
 
+    OrderDto getOrder(Long id);
+
 //    List<OrderForManagerDto> getOrders();
 }

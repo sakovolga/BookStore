@@ -16,6 +16,9 @@ import java.util.Optional;
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface OrderMapper {
 
+    @Mappings(
+            @Mapping(target = "status", source = "status")
+    )
     OrderDto toDto(Order order);
 
     @AfterMapping

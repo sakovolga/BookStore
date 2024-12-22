@@ -26,6 +26,11 @@ public class OrderController {
         return orderService.getMyOrders();
     }
 
+    @GetMapping("/{id}")
+    public OrderDto getOrder(@PathVariable Long id){
+        return orderService.getOrder(id);
+    }
+
 //    @GetMapping("/all")
 //    public List<OrderForManagerDto> getOrders(){
 //        return orderService.getOrders();

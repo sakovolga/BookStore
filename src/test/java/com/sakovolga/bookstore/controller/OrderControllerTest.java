@@ -73,6 +73,23 @@ class OrderControllerTest {
         Assertions.assertEquals(1, orders.size());
 //        Assertions.assertEquals(OrderStatus.COMPLETED, orders.getFirst().getStatus());
     }
+
+    @Test
+    @WithUserDetails(value = "petr@mail.com")
+    void getOrderTest() throws Exception {
+        OrderDto expectedOrderDto = getOrderDto();
+        long id = 1L;
+
+        String result = mockMvc.perform(MockMvcRequestBuilders.get("/order/" + id))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        OrderDto actualOrderDto = objectMapper.readValue(result, OrderDto.class);
+
+        Assertions.assertEquals(expectedOrderDto, actualOrderDto);
+    }
 //
 //    @Test
 //    @WithUserDetails(value = "anna@mail.com")
@@ -97,7 +114,9 @@ class OrderControllerTest {
                 .getResponse()
                 .getContentAsString();
 
-        return objectMapper.readValue(myOrdersJson, new TypeReference<>() {});
+        List<Long> list =  objectMapper.readValue(myOrdersJson, new TypeReference<>() {});
+        System.out.println("111111111111111111" + list);
+        return list;
     }
 
     private List<CartItemDto> getActualCart() throws Exception {
@@ -108,6 +127,25 @@ class OrderControllerTest {
 
         return objectMapper.readValue(result, new TypeReference<>() {
         });
+    }
+
+    private OrderDto getOrderDto(){
+        OrderDto orderDto = new OrderDto();
+        orderDto.setOrderId(1);
+        orderDto.setTotalPrice(BigDecimal.valueOf(45.55));
+        orderDto.setStatus(OrderStatus.COMPLETED);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        orderDto.setCreatedAt(LocalDateTime.parse("2024-09-20 13:00:00", formatter));
+        orderDto.setCompletedAt(LocalDateTime.parse("2024-09-20 14:00:00", formatter));
+        OrderDetailDto orderDetailDto = new OrderDetailDto();
+        orderDetailDto.setBookId(1);
+        orderDetailDto.setBookTitle("Harry Potter");
+        orderDetailDto.setBookAuthor("Joahn Roaling");
+        orderDetailDto.setBookPrice(BigDecimal.valueOf(45.55));
+        orderDetailDto.setOrderDetailPrice(BigDecimal.valueOf(45.55));
+        orderDetailDto.setQuantity(1);
+        orderDto.setList(List.of(orderDetailDto));
+        return orderDto;
     }
 
 //    private List<OrderForManagerDto> getAll(){

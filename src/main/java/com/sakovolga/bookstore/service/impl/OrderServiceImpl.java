@@ -7,6 +7,7 @@ import com.sakovolga.bookstore.entity.OrderDetail;
 import com.sakovolga.bookstore.entity.User;
 import com.sakovolga.bookstore.entity.enums.OrderStatus;
 import com.sakovolga.bookstore.exception.NotAllCartItemsFoundException;
+import com.sakovolga.bookstore.exception.NothingFoundException;
 import com.sakovolga.bookstore.mapper.OrderDetailMapper;
 import com.sakovolga.bookstore.mapper.OrderMapper;
 import com.sakovolga.bookstore.repository.CartItemRepository;
@@ -72,6 +73,14 @@ public class OrderServiceImpl implements OrderService {
 //        return orderList.stream()
 //                .map(orderMapper::toMyOrderDto)
 //                .toList();
+    }
+
+    @Transactional
+    @Override
+    public OrderDto getOrder(Long id) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new NothingFoundException("Order with id " + id + " does not exists"));
+        return orderMapper.toDto(order);
     }
 
 //    @Override
