@@ -1,6 +1,5 @@
 package com.sakovolga.bookstore.controller;
 
-import com.sakovolga.bookstore.dto.MyOrderDto;
 import com.sakovolga.bookstore.dto.OrderDto;
 import com.sakovolga.bookstore.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +22,12 @@ public class OrderController {
     }
 
     @GetMapping("/myorders")
-    public List<MyOrderDto> getMyOrders(){
+    public List<Long> getMyOrders(){
         return orderService.getMyOrders();
     }
+
+//    @GetMapping("/all")
+//    public List<OrderForManagerDto> getOrders(){
+//        return orderService.getOrders();
+//    }
 }

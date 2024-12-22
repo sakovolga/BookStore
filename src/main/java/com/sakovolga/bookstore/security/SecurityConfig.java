@@ -32,6 +32,7 @@ public class SecurityConfig {
                         // Разрешаем регистрацию и аутентификацию без проверки ролей
                         .requestMatchers("/user/registration", "/auth/**", "/book/**").permitAll()
                         .requestMatchers("/cart/**", "/order/myorders").hasRole("CUSTOMER")
+                        .requestMatchers("/order/all").hasRole("MANAGER")
                         // Администраторам разрешен доступ ко всем путям
                         .requestMatchers("/user/*", "/user/email/*").hasRole("ADMIN")
 

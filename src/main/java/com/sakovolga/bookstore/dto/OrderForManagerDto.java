@@ -1,15 +1,20 @@
 //package com.sakovolga.bookstore.dto;
 //
 //import com.sakovolga.bookstore.entity.enums.OrderStatus;
+//import jakarta.persistence.Column;
 //import lombok.Data;
 //
 //import java.math.BigDecimal;
 //import java.time.LocalDateTime;
+//import java.util.List;
 //
 //@Data
-//public class MyOrderDto {
+//public class OrderForManagerDto {
 //    Long orderId;
-//    LocalDateTime date;
+//    Long userId;
+//    List<OrderDetailDto> orderDetails;
 //    OrderStatus status;
 //    BigDecimal totalPrice;
+//    LocalDateTime createdAt;
+//    LocalDateTime completedAt;
 //}

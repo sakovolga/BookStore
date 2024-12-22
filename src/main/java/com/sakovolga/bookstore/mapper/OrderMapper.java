@@ -1,6 +1,5 @@
 package com.sakovolga.bookstore.mapper;
 
-import com.sakovolga.bookstore.dto.MyOrderDto;
 import com.sakovolga.bookstore.dto.OrderDetailDto;
 import com.sakovolga.bookstore.dto.OrderDto;
 import com.sakovolga.bookstore.entity.Book;
@@ -42,24 +41,36 @@ public interface OrderMapper {
         return orderDetailDto;
     }
 
-    @Mappings(
-            @Mapping(target = "orderId", source = "orderId")
-    )
-    MyOrderDto toMyOrderDto(Order order);
+//    @Mappings(
+//            @Mapping(target = "orderId", source = "orderId")
+//    )
+//    MyOrderDto toMyOrderDto(Order order);
+//
+//    @AfterMapping
+//    default void generateMyOrderDto(@MappingTarget MyOrderDto myOrdersDto, Order order) {
+//        LocalDateTime createdAt = order.getCreatedAt();
+//        Optional<LocalDateTime> completedAt = Optional.ofNullable(order.getCompletedAt());
+//        myOrdersDto.setDate(completedAt.orElse(createdAt));
+//        myOrdersDto.setTotalPrice(getTotalPrice(order));
+//    }
+//
+//    default BigDecimal getTotalPrice(Order order) {
+//        return order.getOrderDetailList()
+//                .stream()
+//                .map(orderDetail ->
+//                        orderDetail.getBook().getPrice().multiply(BigDecimal.valueOf(orderDetail.getQuantity())))
+//                .reduce(BigDecimal.ZERO, BigDecimal::add);
+//    }
+//
+//    @Mappings(
+//            @Mapping(target = "orderId", source = "orderId")
+//    )
+//    OrderForManagerDto toOrderForManagerDto(Order order);
+//
+//    @AfterMapping
+//    default void generateOrderForManagerDto(@MappingTarget OrderForManagerDto orderForManagerDto, Order order){
+//        orderForManagerDto.setTotalPrice(getTotalPrice(order));
+//        orderForManagerDto.setUserId(order.getUser().getUserId());
+//    }
 
-    @AfterMapping
-    default void generateMyOrderDto(@MappingTarget MyOrderDto myOrdersDto, Order order) {
-        LocalDateTime createdAt = order.getCreatedAt();
-        Optional<LocalDateTime> completedAt = Optional.ofNullable(order.getCompletedAt());
-        myOrdersDto.setDate(completedAt.orElse(createdAt));
-        myOrdersDto.setTotalPrice(getTotalPrice(order));
-    }
-
-    default BigDecimal getTotalPrice(Order order) {
-        return order.getOrderDetailList()
-                .stream()
-                .map(orderDetail ->
-                        orderDetail.getBook().getPrice().multiply(BigDecimal.valueOf(orderDetail.getQuantity())))
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-    }
 }
