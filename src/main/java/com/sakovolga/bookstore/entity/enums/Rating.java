@@ -1,5 +1,8 @@
 package com.sakovolga.bookstore.entity.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum Rating {
     ONE(1),
     TWO(2),
@@ -13,8 +16,5 @@ public enum Rating {
         this.value = value;
     }
 
-    public int getValue() {
-        return value;
-    }
 }
 
