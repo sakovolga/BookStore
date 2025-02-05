@@ -37,6 +37,8 @@ public class Order {
     @OneToMany(mappedBy = "order", orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<OrderDetail> orderDetailList;
 
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
