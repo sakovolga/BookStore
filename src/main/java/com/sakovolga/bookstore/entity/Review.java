@@ -25,6 +25,9 @@ public class Review {
     @Column(name = "rating")
     private Rating rating;
 
+    @Column(name = "comment")
+    private String comment;
+
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private User user;
@@ -52,6 +55,9 @@ public class Review {
                 "reviewId=" + reviewId +
                 ", createdAt=" + createdAt +
                 ", rating=" + rating +
+                ", comment='" + comment + '\'' +
+                ", user=" + user.getSecondName() +
+                ", book=" + book.getTitle() +
                 '}';
     }
 }
