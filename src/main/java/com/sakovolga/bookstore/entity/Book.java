@@ -44,6 +44,9 @@ public class Book {
     @Enumerated(EnumType.STRING)
     private Category category;
 
+    @Column(name = "review_count")
+    private Integer reviewCount;
+
     @OneToMany(mappedBy = "book", orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Review> reviews;
 

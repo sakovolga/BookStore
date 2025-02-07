@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS books (
     publishing_house VARCHAR(128) NOT NULL,
     price DECIMAL(10,2) NOT NULL,
     reminder BIGINT,
+    review_count INT,
     book_rating DECIMAL(10,2),
     category VARCHAR(128),
     PRIMARY KEY (book_id)

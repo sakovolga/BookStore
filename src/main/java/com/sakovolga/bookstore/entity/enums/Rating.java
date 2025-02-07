@@ -10,9 +10,9 @@ public enum Rating {
     FOUR(4),
     FIVE(5);
 
-    private final int value;
+    private final Integer value;
 
-    Rating(int value) {
+    Rating(Integer value) {
         this.value = value;
     }
 

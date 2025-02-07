@@ -16,6 +16,10 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Objects;
+
 @Service
 @RequiredArgsConstructor
 public class ReviewServiceImpl implements ReviewService {
@@ -35,7 +39,22 @@ public class ReviewServiceImpl implements ReviewService {
         Book book = bookRepository.findById(reviewDto.getBookId())
                 .orElseThrow(() -> new NothingFoundException("Book with id " + reviewDto.getBookId() + " does not exists"));
         review.setBook(book);
+        updateBookRating(book, review.getRating().getValue());
         Review savedReview = repository.save(review);
         return reviewMapper.toDto(savedReview);
     }
+
+    private void updateBookRating(Book book, Integer newRating) {
+        BigDecimal currentRating = Objects.requireNonNullElse(book.getBookRating(), BigDecimal.ZERO);
+        Integer reviewCount = Objects.requireNonNullElse(book.getReviewCount(), 0);
+
+        BigDecimal newAverage = (currentRating.multiply(BigDecimal.valueOf(reviewCount))
+                .add(BigDecimal.valueOf(newRating)))
+                .divide(BigDecimal.valueOf(reviewCount + 1), 2, RoundingMode.HALF_UP);
+
+        book.setBookRating(newAverage);
+        book.setReviewCount(reviewCount + 1);
+    }
+
+
 }
