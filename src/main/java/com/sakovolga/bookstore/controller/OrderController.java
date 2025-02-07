@@ -21,7 +21,7 @@ public class OrderController {
         return orderService.createOrder(cartItemIds);
     }
 
-    @GetMapping("/myorders")
+    @GetMapping("/myOrders")
     public List<Long> getMyOrders(){
         return orderService.getMyOrders();
     }
