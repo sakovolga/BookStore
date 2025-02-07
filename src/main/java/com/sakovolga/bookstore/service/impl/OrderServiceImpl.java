@@ -69,10 +69,6 @@ public class OrderServiceImpl implements OrderService {
     public List<Long> getMyOrders() {
         User user = entityManager.merge(userProvider.getCurrentUser());
         return orderRepository.findIdByUser(user);
-//        List<Order> orderList = orderRepository.findAllByUser(user);
-//        return orderList.stream()
-//                .map(orderMapper::toMyOrderDto)
-//                .toList();
     }
 
     @Transactional
@@ -82,12 +78,4 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(() -> new NothingFoundException("Order with id " + id + " does not exists"));
         return orderMapper.toDto(order);
     }
-
-//    @Override
-//    public List<OrderForManagerDto> getOrders() {
-//        List<Order> orderList = orderRepository.findAll();
-//        return orderList.stream()
-//                .map(orderMapper::toOrderForManagerDto)
-//                .toList();
-//    }
 }

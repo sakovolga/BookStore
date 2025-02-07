@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Table(name = "reviews")
@@ -23,6 +24,7 @@ public class Review {
     private LocalDateTime createdAt;
 
     @Column(name = "rating")
+    @Enumerated(EnumType.STRING)
     private Rating rating;
 
     @Column(name = "comment")

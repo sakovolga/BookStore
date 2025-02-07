@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -43,6 +44,9 @@ public class Book {
     @Enumerated(EnumType.STRING)
     private Category category;
 
+    @OneToMany(mappedBy = "book", orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Review> reviews;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -65,8 +69,10 @@ public class Book {
                 ", yearOfPublication=" + yearOfPublication +
                 ", publishingHouse='" + publishingHouse + '\'' +
                 ", price=" + price +
+                ", reminder=" + reminder +
                 ", bookRating=" + bookRating +
                 ", category=" + category +
+                ", reviews=" + reviews +
                 '}';
     }
 }

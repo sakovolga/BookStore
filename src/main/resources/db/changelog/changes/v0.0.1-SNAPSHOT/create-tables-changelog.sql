@@ -66,7 +66,7 @@ create TABLE IF NOT EXISTS order_details (
 create TABLE IF NOT EXISTS reviews (
     review_id	BIGSERIAL unique NOT NULL,
     created_at	timestamp NOT NULL,
-    rating	VARCHAR(8),
+    rating	VARCHAR(58),
     comment text,
     user_id	BIGINT NOT NULL,
     book_id	BIGINT NOT NULL,
