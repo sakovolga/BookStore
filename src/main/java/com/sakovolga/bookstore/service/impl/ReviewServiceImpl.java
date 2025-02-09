@@ -51,7 +51,6 @@ public class ReviewServiceImpl implements ReviewService {
         BigDecimal newAverage = (currentRating.multiply(BigDecimal.valueOf(reviewCount))
                 .add(BigDecimal.valueOf(newRating)))
                 .divide(BigDecimal.valueOf(reviewCount + 1), 2, RoundingMode.HALF_UP);
-
         book.setBookRating(newAverage);
         book.setReviewCount(reviewCount + 1);
     }
