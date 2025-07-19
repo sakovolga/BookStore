@@ -2,14 +2,20 @@ package com.sakovolga.bookstore.entity;
 
 import com.sakovolga.bookstore.entity.enums.Category;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "books")
+@Getter
+@Setter
 public class Book {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "book_id")
     private long bookId;
 
@@ -28,6 +34,9 @@ public class Book {
     @Column(name = "price")
     private BigDecimal price;
 
+    @Column(name = "reminder")
+    private Integer reminder;
+
     @Column(name = "book_rating")
     private BigDecimal bookRating;
 
@@ -35,69 +44,11 @@ public class Book {
     @Enumerated(EnumType.STRING)
     private Category category;
 
-    public long getBookId() {
-        return bookId;
-    }
+    @Column(name = "review_count")
+    private Integer reviewCount;
 
-    public void setBookId(long bookId) {
-        this.bookId = bookId;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public short getYearOfPublication() {
-        return yearOfPublication;
-    }
-
-    public void setYearOfPublication(short yearOfPublication) {
-        this.yearOfPublication = yearOfPublication;
-    }
-
-    public String getPublishingHouse() {
-        return publishingHouse;
-    }
-
-    public void setPublishingHouse(String publishingHouse) {
-        this.publishingHouse = publishingHouse;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public BigDecimal getBookRating() {
-        return bookRating;
-    }
-
-    public void setBookRating(BigDecimal bookRating) {
-        this.bookRating = bookRating;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
+    @OneToMany(mappedBy = "book", orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Review> reviews;
 
     @Override
     public boolean equals(Object o) {
@@ -121,8 +72,10 @@ public class Book {
                 ", yearOfPublication=" + yearOfPublication +
                 ", publishingHouse='" + publishingHouse + '\'' +
                 ", price=" + price +
+                ", reminder=" + reminder +
                 ", bookRating=" + bookRating +
                 ", category=" + category +
+                ", reviews=" + reviews +
                 '}';
     }
 }

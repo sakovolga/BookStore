@@ -1,15 +1,19 @@
 package com.sakovolga.bookstore.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
 @Table(name = "order_details")
+@Setter
+@Getter
 public class OrderDetail {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_detail_id")
     private long orderDetailId;
 
@@ -23,38 +27,6 @@ public class OrderDetail {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "order_id", referencedColumnName = "order_id")
     private Order order;
-
-    public long getOrderDetailId() {
-        return orderDetailId;
-    }
-
-    public void setOrderDetailId(long orderDetailId) {
-        this.orderDetailId = orderDetailId;
-    }
-
-    public short getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(short quantity) {
-        this.quantity = quantity;
-    }
-
-    public Book getBook() {
-        return book;
-    }
-
-    public void setBook(Book book) {
-        this.book = book;
-    }
-
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -70,9 +42,11 @@ public class OrderDetail {
     }
 
     @Override
-    public String toString() {
+    public String  toString() {
         return "OrderDetail{" +
                 "orderDetailId=" + orderDetailId +
+                ", quantity=" + quantity +
+                ", book=" + book +
                 '}';
     }
 }

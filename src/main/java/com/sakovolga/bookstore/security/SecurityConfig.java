@@ -30,13 +30,15 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable) // Отключение CSRF защиты
                 .authorizeHttpRequests(auth -> auth
                         // Разрешаем регистрацию и аутентификацию без проверки ролей
-                        .requestMatchers("/user/registration", "/auth/**").permitAll()
-
+                        .requestMatchers("/user/registration", "/auth/**", "/book/**").permitAll()
+                        .requestMatchers("/cart/**", "/order/myorders").hasRole("CUSTOMER")
+                        .requestMatchers("/order/all").hasRole("MANAGER")
                         // Администраторам разрешен доступ ко всем путям
-                        .requestMatchers("/user/getById/*", "/user/email/*").hasRole("ADMIN")
+                        .requestMatchers("/user/*", "/user/email/*").hasRole("ADMIN")
 
                         // Все остальные запросы должны быть аутентифицированы
-//                        .requestMatchers("/**").authenticated()
+                        .requestMatchers("/order/*").authenticated()
+                        .anyRequest().permitAll()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Stateless session
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class); // Добавляем фильтр JWT

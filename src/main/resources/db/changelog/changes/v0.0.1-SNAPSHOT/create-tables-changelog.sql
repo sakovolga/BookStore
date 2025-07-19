@@ -9,6 +9,8 @@ CREATE TABLE IF NOT EXISTS books (
     year_of_publication SMALLINT NOT NULL,
     publishing_house VARCHAR(128) NOT NULL,
     price DECIMAL(10,2) NOT NULL,
+    reminder BIGINT,
+    review_count INT,
     book_rating DECIMAL(10,2),
     category VARCHAR(128),
     PRIMARY KEY (book_id)
@@ -65,7 +67,8 @@ create TABLE IF NOT EXISTS order_details (
 create TABLE IF NOT EXISTS reviews (
     review_id	BIGSERIAL unique NOT NULL,
     created_at	timestamp NOT NULL,
-    rating	VARCHAR(8),
+    rating	VARCHAR(58),
+    comment text,
     user_id	BIGINT NOT NULL,
     book_id	BIGINT NOT NULL,
     PRIMARY KEY (review_id),

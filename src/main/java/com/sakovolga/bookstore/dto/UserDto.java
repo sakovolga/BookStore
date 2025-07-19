@@ -1,6 +1,8 @@
 package com.sakovolga.bookstore.dto;
 
 
+import java.util.Objects;
+
 public class UserDto {
     String id;
     String firstName;
@@ -20,7 +22,7 @@ public class UserDto {
         return firstName;
     }
 
-    public void setfirstName(String firstName) {
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
@@ -46,6 +48,19 @@ public class UserDto {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserDto userDto = (UserDto) o;
+        return Objects.equals(id, userDto.id) && Objects.equals(firstName, userDto.firstName) && Objects.equals(secondName, userDto.secondName) && Objects.equals(email, userDto.email) && Objects.equals(password, userDto.password);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, secondName, email, password);
     }
 
     @Override
